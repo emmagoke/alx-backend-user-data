@@ -7,7 +7,7 @@ Arguments:
     redaction: a string representing by what the field will be obfuscated
     message: a string representing the log line
     separator: a string representing by which character is separating all
-    fields in the log line (message)
+    fields in the log line (message) {i}=.+?{separator}
  e.g email=eggmin@eggsample.com;password=eggcellent;date_of_birth=12/12/1986;
  to email=eggmin@eggsample.com;password=xxx;date_of_birth=xxx;
 """
@@ -21,7 +21,7 @@ def filter_datum(fields: List[str], redaction: str,
     This function returns the log message obfuscated
     using the fields list
     """
-    pattern = ''.join([f"{i}=.+?{separator}" for i in fields])
+    pattern = ''.join(["{}=.+?{}".format(i, separator) for i in fields])
     replace = separator.join(["{}={}".format(i, redaction)for i in fields])
     result = re.sub(pattern, replace + separator, message)
     return result
