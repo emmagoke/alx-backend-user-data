@@ -14,7 +14,7 @@ Arguments:
 from typing import List
 import re
 import logging
-from os import getenv
+import os
 from mysql.connector import connection
 
 PII_FIELDS = ('name', 'email', 'phone', 'ssn', 'password')
@@ -66,19 +66,14 @@ def get_logger() -> logging.Logger:
 
 def get_db() -> mysql.connector.connection.MySQLConnection:
     """ This function connect to the database. """
-    username = getenv("PERSONAL_DATA_DB_USERNAME")
-    if not username:
-        username = "root"
-    db_host = getenv('PERSONAL_DATA_DB_HOST')
-    if not db_host:
-        db_host = "localhost"
-    db_password = getenv('PERSONAL_DATA_DB_PASSWORD')
-    if not db_password:
-        db_password = ''
-    db_name = getenv('PERSONAL_DATA_DB_NAME')
+    username = os.getenv("PERSONAL_DATA_DB_USERNAME", "root")
+    db_host = os.getenv('PERSONAL_DATA_DB_HOST', "localhost")
+    db_password = os.getenv('PERSONAL_DATA_DB_PASSWORD', '')
+    db_name = os.getenv('PERSONAL_DATA_DB_NAME')
 
     db_connect = connection.MySQLConnection(user=username,
                                             password=db_password,
                                             host=db_host,
+                                            port=3306
                                             database=db_name)
     return db_connect
