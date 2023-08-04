@@ -77,3 +77,26 @@ def get_db() -> mysql.connector.connection.MySQLConnection:
                                          port=3306,
                                          database=db_name)
     return db_connect
+
+
+def main():
+    """ """
+    connection = get_db()
+    logger = get_logger()
+    cursor = connection.cursor()  # or with connection.cursor()
+
+    query = ("SELECT * FROM users;")
+    cursor.execute(query)
+    # rows = cursor.fetchall()
+    columns = cursor.column_names
+    for row in cursor:
+        message = "".join("{}={}; ".format(c, r) for c, r in zip(columns, row))
+        args = ('user_data', logging.INFO, None, None, message, None, None)
+        record = logging.LogRecord(*args)
+        logger.handle(record)
+    cursor.close()
+    connection.close()
+
+
+if __name__ == '__main__':
+    main()
