@@ -13,11 +13,37 @@ Arguments:
 """
 from typing import List
 import re
+import logging
 
 
 def filter_datum(fields: List[str], redaction: str,
                  message: str, separator: str) -> str:
-    """ This function returns the log message obfuscated. """
+    """
+    This function returns the log message obfuscated
+    using the fields list
+    """
     pattern = ''.join(["{}=.+?{}".format(i, separator) for i in fields])
     replace = separator.join(["{}={}".format(i, redaction)for i in fields])
-    return re.sub(pattern, replace + separator, message)
+    result = re.sub(pattern, replace + separator, message)
+    return result
+
+
+class RedactingFormatter(logging.Formatter):
+    """ Redacting Formatter class
+        """
+
+    REDACTION = "***"
+    FORMAT = "[HOLBERTON] %(name)s %(levelname)s %(asctime)-15s: %(message)s"
+    SEPARATOR = ";"
+
+    def __init__(self, fields):
+        """ This constructor for this class. """
+        self.fields = fields
+        super(RedactingFormatter, self).__init__(self.FORMAT)
+
+    def format(self, record: logging.LogRecord) -> str:
+        ''' Returns a Log message. '''
+        message = super(RedactingFormatter, self).format(record)
+        output = filter_datum(self.fields, self.REDACTION,
+                              message, self.SEPARATOR)
+        return output
