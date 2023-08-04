@@ -17,5 +17,5 @@ def is_valid(hashed_password: bytes, password: str) -> bool:
     encoded_password = password.encode('utf-8')
 
     if bcrypt.checkpw(encoded_password, hashed_password):
-    	return True
+        return True
     return False
