@@ -80,7 +80,7 @@ def get_db() -> mysql.connector.connection.MySQLConnection:
 
 
 def main():
-    """ """
+    """ This is the main function """
     connection = get_db()
     logger = get_logger()
     cursor = connection.cursor()  # or with connection.cursor()
