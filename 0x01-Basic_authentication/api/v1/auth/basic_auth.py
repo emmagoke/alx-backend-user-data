@@ -4,6 +4,7 @@ This script contains the class that will implement
 Basic authentication.
 """
 from .auth import Auth
+import base64
 
 
 class BasicAuth(Auth):
@@ -20,3 +21,18 @@ class BasicAuth(Auth):
         if authorization_header.split(' ')[0] != "Basic":
             return None
         return authorization_header.split(' ')[-1]
+
+    def decode_base64_authorization_header(
+            self,
+            base64_authorization_header: str) -> str:
+        """ This method decode the base64 encoding. """
+        if base64_authorization_header is None:
+            return None
+        if type(base64_authorization_header) != str:
+            return None
+        try:
+            b_decode = base64.standard_b64decode(base64_authorization_header)
+            b_decode = b_decode.decode('utf-8')
+            return b_decode
+        except base64.binascii.Error:
+            return None
