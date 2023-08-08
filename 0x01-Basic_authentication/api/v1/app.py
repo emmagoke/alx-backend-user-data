@@ -23,7 +23,7 @@ if auth_type:
 
 @app.before_request
 def before_request() -> str:
-    """ """
+    """ This method is handle before other route"""
     if auth is None:
         return
     excluded_list = [
