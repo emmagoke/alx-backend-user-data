@@ -40,7 +40,8 @@ class BasicAuth(Auth):
     def extract_user_credentials(
             self,
             decoded_base64_authorization_header: str) -> (str, str):
-        """ """
+        """ This method splits the decode base64 code into
+        username and password"""
         if decoded_base64_authorization_header is None:
             return None, None
         if type(decoded_base64_authorization_header) != str:
