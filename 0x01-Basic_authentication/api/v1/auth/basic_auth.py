@@ -5,6 +5,8 @@ Basic authentication.
 """
 from .auth import Auth
 import base64
+from typing import TypeVar
+from models.user import User
 
 
 class BasicAuth(Auth):
@@ -50,3 +52,21 @@ class BasicAuth(Auth):
             values = decoded_base64_authorization_header.strip().split(':')
             return values[0].strip(), values[1]
         return None, None
+
+    def user_object_from_credentials(
+            self,
+            user_email: str,
+            user_pwd: str) -> TypeVar('User'):
+        """ This method return the authenicated user.  """
+        if user_email is None or user_pwd is None:
+            return None
+        if type(user_email) == str and type(user_email) == str:
+            try:
+                user_obj = User.search({"email": user_email})
+            except Exception:
+                return None
+            if len(user_obj) <= 0:
+                return None
+            if user_obj[0].is_valid_password(user_pwd):
+                return user_obj[0]
+        return None
