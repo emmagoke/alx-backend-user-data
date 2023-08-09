@@ -49,8 +49,10 @@ class BasicAuth(Auth):
         if type(decoded_base64_authorization_header) != str:
             return None, None
         if ":" in decoded_base64_authorization_header:
-            values = decoded_base64_authorization_header.strip().split(':')
-            return values[0].strip(), values[1]
+            first = decoded_base64_authorization_header.find(':')
+            username = decoded_base64_authorization_header.strip()[:first]
+            password = decoded_base64_authorization_header.strip()[first + 1:]
+            return username, password
         return None, None
 
     def user_object_from_credentials(
