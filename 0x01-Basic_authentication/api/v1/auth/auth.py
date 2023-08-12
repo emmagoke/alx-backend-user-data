@@ -15,15 +15,15 @@ class Auth:
         if path is None or excluded_paths is None:
             return True
         for item in excluded_paths:
+            if item[-1] == '*':
+                pattern = "{}.*".format(item[:-1])
+                if re.match(pattern, path):
+                    return False
             if path[-1] != '/':
                 if path + '/' == item:
                     return False
             elif path == item:
                 return False
-            elif item[-1] == '*':
-                pattern = "{}.*".format(item[:-1])
-                if re.match(pattern, path):
-                    return False
 
         return True
 
