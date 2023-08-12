@@ -23,7 +23,7 @@ class Auth:
             elif item[-1] == '*':
                 pattern = "{}.*".format(item[:-1])
                 if re.match(pattern, path):
-                return False 
+                    return False
 
         return True
 
