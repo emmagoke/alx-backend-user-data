@@ -19,6 +19,10 @@ class Auth:
                     return False
             elif path == item:
                 return False
+            elif item[-1] == '*':
+                pattern = "{}.*".format(item[:-1])
+                if re.match(pattern, path):
+                return False 
 
         return True
 
