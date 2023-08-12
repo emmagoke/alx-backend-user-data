@@ -4,6 +4,7 @@ This script contains the class that manage the API authentication.
 """
 from flask import request
 from typing import List, TypeVar
+import re
 
 
 class Auth:
