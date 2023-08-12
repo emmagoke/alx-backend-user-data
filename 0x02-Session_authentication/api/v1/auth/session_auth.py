@@ -7,4 +7,5 @@ from .auth import Auth
 
 
 class SessionAuth(Auth):
+    """ Contains Session Authentication Implementation. """
     pass
