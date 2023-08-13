@@ -18,7 +18,7 @@ def session_login():
     if password is None or len(password.strip()) == '':
         return jsonify({"error": "password missing"}), 400
     user = User.search({"email": email})
-    if len(user) == 0:
+    if len(user) <= 0:
         return jsonify({"error": "no user found for this email"}), 404
     if not user[0].is_valid_password(password):
         return jsonify({"error": "wrong password"}), 401
@@ -37,6 +37,6 @@ def session_logout():
     """ This route deletes the user session """
     from api.v1.app import auth
     response = auth.destroy_session(request)
-    if response:
+    if not response:
         abort(404)
     return jsonify({}), 200
