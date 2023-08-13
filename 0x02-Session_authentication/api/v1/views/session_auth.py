@@ -2,9 +2,10 @@
 """
 This script contains route that handles things concerning authentication
 """
-from flask import jsonify
+from flask import jsonify, request
 from api.v1.views import app_views
 from os import getenv
+from models.user import User
 
 
 @app_views.route('/auth_session/login', methods=['POST'], strict_slashes=False)
