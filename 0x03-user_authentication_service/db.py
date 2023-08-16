@@ -64,7 +64,6 @@ class DB:
     def update_user(self, user_id: int, **kwargs) -> None:
         """ This method updates a user. """
         user = self.find_user_by(id=user_id)
-        print(user)
         for key, value in kwargs.items():
             if hasattr(User, key):
                 setattr(user, key, value)
