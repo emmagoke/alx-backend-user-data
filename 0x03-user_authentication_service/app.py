@@ -17,7 +17,7 @@ def home():
 
 
 @app.route('/users', methods=['POST'], strict_slashes=False)
-def users():
+def users() -> str:
     """ This handles the post request of the users route. """
     email = request.form.get('email')
     password = request.form.get('password')
@@ -32,12 +32,12 @@ def users():
 def login() -> str:
     """ This function handles user login. """
     email, password = request.form.get('email'), request.form.get('password')
-    if Auth.valid_login(email, password):
-        session_id = Auth.create_session(email)
-        response = jsonify({"email": email, "message": "logged in"})
-        response.set_cookie("session_id", session_id)
-        return response
-    abort(401)
+    if not Auth.valid_login(email, password):
+        abort(401)
+    session_id = Auth.create_session(email)
+    response = jsonify({"email": email, "message": "logged in"})
+    response.set_cookie("session_id", session_id)
+    return response
 
 
 if __name__ == "__main__":
