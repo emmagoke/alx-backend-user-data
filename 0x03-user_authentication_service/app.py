@@ -2,7 +2,7 @@
 """
 This script contains route and handles user request using flask
 """
-from flask import Flask, jsonify, request, abort, redirect, url_for
+from flask import Flask, jsonify, request, abort, redirect
 from auth import Auth
 
 
