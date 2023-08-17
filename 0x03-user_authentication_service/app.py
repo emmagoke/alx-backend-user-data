@@ -29,7 +29,7 @@ def users():
 
 
 @app.route('/sessions', methods=['POST'], strict_slashes=False)
-def login():
+def login() -> str:
     """ This function handles user login. """
     email, password = request.form.get('email'), request.form.get('password')
     if Auth.valid_login(email, password):
